@@ -24,4 +24,5 @@ kbd.dsp {
 
 code kbd.dsp {
     padding: 0.05em 0.45em;
+    border: 0.1em solid gray;
 }
