@@ -1,23 +1,29 @@
-# Kbdisplay Extension For Quarto
+# Kbdisplay
 
-_TODO_: Add a short description of your extension.
+Расширение предназначено для форматирования клавиатурных комбинаций.
 
-## Installing
-
-_TODO_: Replace the `<github-organization>` with your GitHub organization.
+## Установка
 
 ```bash
-quarto add <github-organization>/kbdisplay
+quarto add skyfroger/kbdisplay
 ```
 
-This will install the extension under the `_extensions` subdirectory.
-If you're using version control, you will want to check in this directory.
+## Использование расширения
 
-## Using
+Подключение расширения:
 
-_TODO_: Describe how to use your extension.
+```yaml
+filters:
+  - kbdisplay
+```
 
-## Example
+Символы между парой двойных плюсов воспринимаются расширением как клавиатурная комбинация:
 
-Here is the source code for a minimal example: [example.qmd](example.qmd).
+```markdown
+Клавиша ++ctr++.
+```
+
+## Примеры разметки
+
+Исходный код с примерами разметки: [example.qmd](example.qmd).
 

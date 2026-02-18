@@ -21,3 +21,7 @@ kbd.dsp {
         top: 1px;
     }
 }
+
+code kbd.dsp {
+    padding: 0.05em 0.45em;
+}

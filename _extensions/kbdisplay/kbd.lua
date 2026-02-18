@@ -1,5 +1,12 @@
 local function writeEnvironments()
     if quarto.doc.is_format("html:js") then
+		quarto.doc.add_html_dependency({
+            name = "kbd-script",
+            version = "1.0",
+            scripts = {
+                { path = "kbd-code.js", afterBody = "true" },
+            },
+        })
         quarto.doc.add_html_dependency({
             name = "kbd-styles",
             version = "1",
@@ -27,7 +34,7 @@ local keys_map = {
 -- получаем массив клавиш, разделённых символом +
 local function split_keys(inputstr)
 	local t = {}
-	for str in string.gmatch(inputstr, "[a-zA-z0-9]+") do
+	for str in string.gmatch(inputstr, "[%w]+") do
 		table.insert(t, str)
 	end
 	return t
@@ -43,13 +50,24 @@ return {
 	{
 		Str = function(elem)
 			-- строка подходит под шаблон ++клавиша++
+			
 			if elem.text:match("%+%+%S+%+%+") then
+				
 				writeEnvironments()
-				--text = elem.text:gsub("%+%+", " ") -- убираем ++ в начале и в конце строки
-				local text = elem.text
-				local keys = split_keys(text) -- получаем список клавиш в комбинации
+
+				-- start_idx - индекс с которого начинается комбинация
+				-- hotkey_text - текст с разметкой клавиши
+				-- end_idx - индекс которым заканчивается комбинация
+				local start_idx, hotkey_text, end_idx = elem.text:match("()%+%+(.-)%+%+()")
+
+				local keys = split_keys(hotkey_text) -- получаем список клавиш в комбинации
 
 				output = {}
+
+				-- добавляем символы идущие до комбинации
+				if start_idx > 1 then
+					table.insert(output, pandoc.Str(elem.text:sub(1, start_idx - 1)))
+				end
 				-- перебираем все клавиши
 				for index, key in ipairs(keys) do
 					local key_text = key
@@ -69,10 +87,21 @@ return {
 						table.insert(output, pandoc.Span(pandoc.Str " + "))
 					end
 				end
+
+				-- добавляем индексы идущие после комбинации
+				if end_idx <= #elem.text then
+					table.insert(output, pandoc.Str(elem.text:sub(end_idx, #elem.text)))
+				end
 				return output
 			else
 				return elem
 			end
 		end,
+
+		CodeBlock = function(elem)
+			if elem.text:match("%+%+%S+%+%+") then
+				writeEnvironments()
+			end
+		end
 	}
 }
