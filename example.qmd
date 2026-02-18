@@ -1,0 +1,16 @@
+---
+title: "Kbdisplay Example"
+filters:
+  - kbdisplay
+---
+
+## Heading
+
+This filter adds formatting to heading text.
+
+Это пример комбинации ++ctrl+alt+del++, которая описана в тексте.
+
+```markdown
+результат: 2 ++enter++
+```
+
