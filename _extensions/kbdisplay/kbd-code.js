@@ -11,13 +11,16 @@ function processShortcuts() {
     codeEl.forEach((el) => {
         const codeLines = el.querySelectorAll("span");
         codeLines.forEach((line) => {
-            const newText = line.innerText.replace(
+            let newText = line.innerText.replace(
                 /\+\+([^+]+)\+\+/g,
                 (match, content) => {
                     return `<kbd class="dsp">${(content == "enter" ? "⏎" : "") + capitalize(content)}</kbd>`;
                 },
             );
-            console.log(newText);
+            newText = newText.replace(/<{(.+)}>/g, (match, content) => {
+                console.log(match, content);
+                return `<strong>${content}</strong>`;
+            });
             line.innerHTML = newText;
         });
     });
