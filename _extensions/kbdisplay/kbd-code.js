@@ -18,7 +18,6 @@ function processShortcuts() {
                 },
             );
             newText = newText.replace(/<{(.+)}>/g, (match, content) => {
-                console.log(match, content);
                 return `<strong>${content}</strong>`;
             });
             line.innerHTML = newText;
